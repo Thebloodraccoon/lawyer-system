@@ -4,6 +4,9 @@ package ua.thecoon.lawsys.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
+import java.util.Date;
+import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity(name = "Consultation")
@@ -12,11 +15,11 @@ public class Consultation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private String type;
+    private String consulType;
     private String name;
-    private LocalDate date;
+    private Date date;
     private String description;
+    private ConsultationStatus consultationStatus;
 
     @ManyToOne
     @JoinColumn(name = "lawyer_id")
@@ -26,6 +29,11 @@ public class Consultation {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @OneToOne(mappedBy = "consultation", cascade = CascadeType.ALL)
-    private Payment payment;
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "t_consult_payments",
+            joinColumns = @JoinColumn(name = "consultation_id"),
+            inverseJoinColumns = @JoinColumn(name = "payment_id")
+    )
+    private List<Payment> payments;
 }

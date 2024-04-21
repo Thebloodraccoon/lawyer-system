@@ -3,7 +3,7 @@ package ua.thecoon.lawsys.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @Entity(name = "Payment")
@@ -12,13 +12,10 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Double amount;
-    private LocalDate paymentDate;
+    private Date paymentDate;
     private String paymentMethod;
-    private String status;
 
-    @OneToOne
-    @JoinColumn(name = "consultation_id")
-    private Consultation consultation;
+    @Enumerated(EnumType.STRING)
+    private PaymentStatus paymentStatus;
 }

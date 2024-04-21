@@ -1,15 +1,14 @@
 package ua.thecoon.lawsys.model;
 
-
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-@Entity(name = "Client")
-@Table(name = "t_client")
-public class Client {
+@Entity(name = "Administrator")
+@Table(name = "t_administrator")
+public class Administrator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,6 +18,6 @@ public class Client {
     private String address;
     private String phoneNum;
 
-    @OneToMany(mappedBy = "client")
-    private List<Consultation> consultations;
+    @OneToMany(mappedBy = "administrator")
+    private List<LawyerSalary> lawyerSalaries;
 }
