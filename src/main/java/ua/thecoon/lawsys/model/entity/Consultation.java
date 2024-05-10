@@ -1,16 +1,17 @@
-package ua.thecoon.lawsys.model;
+package ua.thecoon.lawsys.model.entity;
 
 
 import jakarta.persistence.*;
 import lombok.Data;
-import java.time.LocalDate;
-import java.util.Date;
+import lombok.ToString;
+
 import java.util.Date;
 import java.util.List;
 
 @Data
 @Entity(name = "Consultation")
 @Table(name = "t_consultation")
+@ToString(exclude = "client")
 public class Consultation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

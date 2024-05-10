@@ -1,4 +1,4 @@
-package ua.thecoon.lawsys.model;
+package ua.thecoon.lawsys.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,4 +1,4 @@
-package ua.thecoon.lawsys.model;
+package ua.thecoon.lawsys.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -11,10 +11,6 @@ public class LawyerSalary {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "administrator_id")
-    private Administrator administrator;
 
     @ManyToOne
     @JoinColumn(name = "lawyer_id")

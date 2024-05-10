@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Client Profile</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    </head>
+    <body>
+    <div class="container">
+        <h1 class="mt-5">Client Profile</h1>
+
+        <div class="mt-4" th:object="${client}">
+            <div class="form-group">
+                <label>Name:</label>
+                <p class="form-control-static" th:text="${client.name}"></p>
+            </div>
+            <div class="form-group">
+                <label>Email:</label>
+                <p class="form-control-static" th:text="${client.email}"></p>
+            </div>
+            <div class="form-group">
+                <label>Phone Number:</label>
+                <p class="form-control-static" th:text="${client.phoneNum}"></p>
+            </div>
+        </div>
+
+        <h2 class="mt-5">Consultation</h2>
+
+        <table class="table mt-3">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Consultation Name</th>
+                <th>Date</th>
+                <th>Status</th>
+                <th>Lawyer</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="consultation : ${consultations}">
+                <td th:text="${consultation.id}"></td>
+                <td th:text="${consultation.name}"></td>
+                <td th:text="${consultation.date}"></td>
+                <td th:text="${consultation.consultationStatus}"></td>
+                <td th:text="${consultation.lawyer.name}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    </body>
+</html>

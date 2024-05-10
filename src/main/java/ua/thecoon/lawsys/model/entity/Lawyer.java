@@ -1,4 +1,4 @@
-package ua.thecoon.lawsys.model;
+package ua.thecoon.lawsys.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,11 +12,7 @@ public class Lawyer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private String email;
-    private String passwordHash;
-    private String address;
-    private String phoneNum;
+
     private String specialization;
 
     @OneToMany(mappedBy = "lawyer")
