@@ -19,7 +19,9 @@ public class Consultation {
     private String consulType;
     private String name;
     private Date date;
-    private String description;
+    private Double cost;
+
+    @Enumerated(EnumType.STRING)
     private ConsultationStatus consultationStatus;
 
     @ManyToOne
@@ -30,11 +32,6 @@ public class Consultation {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @OneToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "t_consult_payments",
-            joinColumns = @JoinColumn(name = "consultation_id"),
-            inverseJoinColumns = @JoinColumn(name = "payment_id")
-    )
+    @OneToMany(mappedBy = "consultation", fetch = FetchType.EAGER)
     private List<Payment> payments;
 }

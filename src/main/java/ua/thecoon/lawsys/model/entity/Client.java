@@ -14,9 +14,17 @@ public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
-    private String passwordHash;
+
+    @Column(name = "password", nullable = false)
+    private String password;
+
+    @Column(name = "phone_num", nullable = false)
     private String phoneNum;
 
     @OneToMany(mappedBy = "client")

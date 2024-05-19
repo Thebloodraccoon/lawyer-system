@@ -3,37 +3,37 @@ package ua.thecoon.lawsys.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ua.thecoon.lawsys.model.entity.Client;
-import ua.thecoon.lawsys.model.entity.Consultation;
 import ua.thecoon.lawsys.service.ClientService;
-
-import java.util.List;
 
 
 @Controller
-@RequestMapping("/clients")
+@RequestMapping
 @RequiredArgsConstructor
 public class ClientController {
     private final ClientService clientService;
 
-    @GetMapping
+    @GetMapping("/clients")
     public String getAllClients(Model model) {
         model.addAttribute("clients", clientService.getAllClients());
 
         return "view-clients";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("client/{id}")
     public String getClient(@PathVariable int id, Model model) {
         Client client = clientService.getClient((long) id);
-        List<Consultation> consultations = client.getConsultations();
 
         model.addAttribute("client", client);
-        model.addAttribute("consultations", consultations);
+        model.addAttribute("clientId", client.getId());
+        return "client/client-profile";
+    }
 
-        return "client-profile";
+    @PostMapping("client/{id}/update")
+    public String updateClientProfile(@PathVariable Long id, @ModelAttribute Client updatedClient) {
+        clientService.updateClient(id, updatedClient);
+
+        return "redirect:/client/" + id;
     }
 }

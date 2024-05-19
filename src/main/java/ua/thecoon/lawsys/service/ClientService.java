@@ -1,5 +1,6 @@
 package ua.thecoon.lawsys.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ua.thecoon.lawsys.model.entity.Client;
@@ -18,8 +19,37 @@ public class ClientService {
     }
 
     public Client getClient(Long id) {
-        Client byId = clientJpaRepo.findById(id).get();
+        return clientJpaRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
+    }
 
-        return byId;
+    public Client createClient(Client client) {
+        return clientJpaRepo.save(client);
+    }
+
+    public Client updateClient(Long id, Client updatedClient) {
+        Client existingClient = clientJpaRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
+
+        if (updatedClient.getName() != null) {
+            existingClient.setName(updatedClient.getName());
+        }
+        if (updatedClient.getEmail() != null) {
+            existingClient.setEmail(updatedClient.getEmail());
+        }
+        if (updatedClient.getPhoneNum() != null) {
+            existingClient.setPhoneNum(updatedClient.getPhoneNum());
+        }
+
+        return clientJpaRepo.save(existingClient);
+    }
+
+    public void deleteClient(Long id) {
+        Client client = clientJpaRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
+        clientJpaRepo.delete(client);
+    }
+
+    public Client findClientByEmail(String email) {
+        Client clientByEmail = clientJpaRepo.findClientByEmail(email);
+
+        return clientByEmail;
     }
 }
