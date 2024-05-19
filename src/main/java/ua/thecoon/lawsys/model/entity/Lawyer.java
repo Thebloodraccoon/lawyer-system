@@ -42,7 +42,4 @@ public class Lawyer {
 
     @OneToMany(mappedBy = "lawyer")
     private List<Consultation> consultations;
-
-    @OneToMany(mappedBy = "lawyer")
-    private List<Schedule> schedules;
 }

@@ -36,4 +36,11 @@ public class ClientController {
 
         return "redirect:/client/" + id;
     }
+
+    @DeleteMapping("/client/{id}/delete")
+    public String deleteClient(@PathVariable Long id) {
+        boolean b = clientService.deleteClient(id);
+        
+        return "index";
+    }
 }

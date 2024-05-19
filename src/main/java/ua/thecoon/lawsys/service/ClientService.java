@@ -3,6 +3,7 @@ package ua.thecoon.lawsys.service;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ua.thecoon.lawsys.model.entity.Client;
 import ua.thecoon.lawsys.repo.ClientJpaRepo;
 
@@ -14,20 +15,26 @@ import java.util.Optional;
 public class ClientService {
     private final ClientJpaRepo clientJpaRepo;
 
+    @Transactional(readOnly = true)
     public List<Client> getAllClients() {
         return clientJpaRepo.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Client getClient(Long id) {
-        return clientJpaRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
+        return clientJpaRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
     }
 
+    @Transactional
     public Client createClient(Client client) {
         return clientJpaRepo.save(client);
     }
 
+    @Transactional
     public Client updateClient(Long id, Client updatedClient) {
-        Client existingClient = clientJpaRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
+        Client existingClient = clientJpaRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
 
         if (updatedClient.getName() != null) {
             existingClient.setName(updatedClient.getName());
@@ -42,14 +49,16 @@ public class ClientService {
         return clientJpaRepo.save(existingClient);
     }
 
-    public void deleteClient(Long id) {
-        Client client = clientJpaRepo.findById(id).orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
+    @Transactional
+    public boolean deleteClient(Long id) {
+        Client client = clientJpaRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
         clientJpaRepo.delete(client);
+        return true;
     }
 
+    @Transactional(readOnly = true)
     public Client findClientByEmail(String email) {
-        Client clientByEmail = clientJpaRepo.findClientByEmail(email);
-
-        return clientByEmail;
+        return clientJpaRepo.findClientByEmail(email);
     }
 }

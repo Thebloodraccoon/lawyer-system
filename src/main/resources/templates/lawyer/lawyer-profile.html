@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Lawyer Details</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <h1 class="mt-4 mb-4">Lawyer Details</h1>
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h2>Lawyer Information</h2>
+                </div>
+                <div class="card-body">
+                    <p><strong>Name:</strong> <span th:text="${lawyer.name}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${lawyer.email}"></span></p>
+                    <p><strong>Phone Number:</strong> <span th:text="${lawyer.phoneNum}"></span></p>
+                    <p><strong>Specialization:</strong> <span th:text="${lawyer.specialization}"></span></p>
+                    <p><strong>Years of Experience:</strong> <span th:text="${lawyer.yearsOfExperience} + ' years'"></span></p>
+                    <p><strong>License Number:</strong> <span th:text="${lawyer.licenseNumber}"></span></p>
+                    <p><strong>Office Address:</strong> <span th:text="${lawyer.officeAddress}"></span></p>
+                    <p><strong>Bio:</strong> <span th:text="${lawyer.bio}"></span></p>
+
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit</button>
+
+                    <!-- View General Schedule button -->
+                    <a href="/schedule/general" class="btn btn-secondary">View General Schedule</a>
+
+                    <!-- Logout button -->
+                    <form action="/logout" method="post" style="display: inline;">
+                        <button type="submit" class="btn btn-danger">Logout</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2>Consultation Schedule</h2>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Consultation Type</th>
+                            <th>Client Name</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="consultation : ${lawyer.getConsultations()}">
+                            <td th:text="${consultation.date}"></td>
+                            <td th:text="${consultation.consulType}"></td>
+                            <td th:text="${consultation.client.name}"></td>
+                            <td th:text="${consultation.cost}"></td>
+                            <td th:text="${consultation.consultationStatus}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="editProfileModal" tabindex="-1" role="dialog" aria-labelledby="editProfileModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editProfileModalLabel">Edit Profile</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editProfileForm" method="post" th:action="@{'/lawyer/' + ${lawyer.id} + '/update'}">
+                            <div class="form-group">
+                                <label for="name">Name:</label>
+                                <input type="text" class="form-control" id="name" th:value="${lawyer.name}">
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email:</label>
+                                <input type="email" class="form-control" id="email" th:value="${lawyer.email}">
+                            </div>
+                            <div class="form-group">
+                                <label for="phoneNum">Phone Number:</label>
+                                <input type="text" class="form-control" id="phoneNum" th:value="${lawyer.phoneNum}">
+                            </div>
+                            <div class="form-group">
+                                <label for="specialization">Specialization:</label>
+                                <input type="text" class="form-control" id="specialization" th:value="${lawyer.specialization}">
+                            </div>
+                            <div class="form-group">
+                                <label for="yearsOfExperience">Years of Experience:</label>
+                                <input type="number" class="form-control" id="yearsOfExperience" th:value="${lawyer.yearsOfExperience}">
+                            </div>
+                            <div class="form-group">
+                                <label for="licenseNumber">License Number:</label>
+                                <input type="text" class="form-control" id="licenseNumber" th:value="${lawyer.licenseNumber}">
+                            </div>
+                            <div class="form-group">
+                                <label for="officeAddress">Office Address:</label>
+                                <input type="text" class="form-control" id="officeAddress" th:value="${lawyer.officeAddress}">
+                            </div>
+                            <div class="form-group">
+                                <label for="bio">Bio:</label>
+                                <textarea class="form-control" id="bio" rows="3" th:text="${lawyer.bio}"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" form="editProfileForm" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+</html>

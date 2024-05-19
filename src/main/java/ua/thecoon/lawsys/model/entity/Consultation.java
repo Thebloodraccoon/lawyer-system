@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @Entity(name = "Consultation")
 @Table(name = "t_consultation")
-@ToString(exclude = "client")
+@ToString(exclude = {"client", "lawyer"})
 public class Consultation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,6 +32,6 @@ public class Consultation {
     @JoinColumn(name = "client_id")
     private Client client;
 
-    @OneToMany(mappedBy = "consultation", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "consultation", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Payment> payments;
 }

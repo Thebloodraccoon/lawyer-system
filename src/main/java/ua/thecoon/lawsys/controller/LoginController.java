@@ -15,7 +15,7 @@ import java.util.Optional;
 @Controller
 @RequestMapping
 @RequiredArgsConstructor
-public class HomeController {
+public class LoginController {
     private final ClientService clientService;
     @GetMapping("/")
     public String getHomePage() {

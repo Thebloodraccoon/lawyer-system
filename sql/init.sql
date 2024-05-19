@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS t_consultation (
                                               name VARCHAR(255) NOT NULL,
                                               date DATE NOT NULL,
                                               cost DOUBLE NOT NULL,
-                                              consultation_status ENUM('Запланована', 'Відмінена', 'Завершена') NOT NULL DEFAULT 'Запланована',
+                                              consultation_status ENUM('Planned', 'Canceled', 'Completed') NOT NULL DEFAULT 'Planned',
                                               lawyer_id INT NOT NULL,
                                               client_id INT NOT NULL,
                                               FOREIGN KEY (lawyer_id) REFERENCES t_lawyer(id),
@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS t_payment (
                                           amount DOUBLE,
                                           payment_date DATE,
                                           payment_method VARCHAR(255),
-                                          payment_status ENUM('Очікується', 'Оплачено', 'Скасовано') NOT NULL DEFAULT 'Очікується',
+                                          payment_status ENUM('Expected', 'Payed') NOT NULL DEFAULT 'Expected',
                                           FOREIGN KEY (consultation_id) REFERENCES t_consultation(id)
                                      );
 
@@ -49,7 +49,7 @@ CREATE TABLE IF NOT EXISTS t_schedule (
                                            lawyer_id INT NOT NULL,
                                            consultation_id INT NOT NULL,
                                            FOREIGN KEY (lawyer_id) REFERENCES t_lawyer(id),
-                                           FOREIGN KEY (consultation_id) REFERENCES t_consultation(id)
+                                           FOREIGN KEY (consultation_id) REFERENCES t_consultation(id) ON DELETE CASCADE
 );
 
 

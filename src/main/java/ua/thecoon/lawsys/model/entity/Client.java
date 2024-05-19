@@ -27,6 +27,6 @@ public class Client {
     @Column(name = "phone_num", nullable = false)
     private String phoneNum;
 
-    @OneToMany(mappedBy = "client")
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<Consultation> consultations;
 }
