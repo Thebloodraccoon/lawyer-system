@@ -5,24 +5,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.thecoon.lawsys.model.entity.Client;
+import ua.thecoon.lawsys.model.entity.Lawyer;
 import ua.thecoon.lawsys.service.ClientService;
+import ua.thecoon.lawsys.service.LawyerService;
+
+import java.util.List;
 
 
 @Controller
-@RequestMapping
 @RequiredArgsConstructor
 public class ClientController {
     private final ClientService clientService;
 
-    @GetMapping("/clients")
-    public String getAllClients(Model model) {
-        model.addAttribute("clients", clientService.getAllClients());
-
-        return "view-clients";
-    }
-
     @GetMapping("client/{id}")
-    public String getClient(@PathVariable int id, Model model) {
+    public String getClient(@PathVariable int id,
+                            Model model) {
         Client client = clientService.getClient((long) id);
 
         model.addAttribute("client", client);

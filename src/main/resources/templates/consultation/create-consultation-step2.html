@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Create Consultation - Step 2</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h1 class="mt-4 mb-4 text-center">Create Consultation</h1>
+                    <h3 class="text-center">Step 2</h3>
+                    <form th:action="@{/consultation/create/step3/{id}(id=${clientId})}" method="post">
+                        <div class="form-group">
+                            <label for="name">Consultation Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" th:value="${name}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Consultation Type:</label>
+                            <input type="text" class="form-control" id="type" name="type" th:value="${type}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="cost">Consultation Cost:</label>
+                            <input type="text" class="form-control" id="cost" name="cost" th:value="${cost}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="lawyer">Select Lawyer:</label>
+                            <select class="form-control" id="lawyer" name="lawyer" required>
+                                <option th:each="lawyer : ${lawyers}" th:value="${lawyer.id}" th:text="${lawyer.name}"></option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Next</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

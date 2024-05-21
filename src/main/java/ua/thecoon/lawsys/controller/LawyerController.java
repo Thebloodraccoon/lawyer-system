@@ -8,6 +8,7 @@ import ua.thecoon.lawsys.model.entity.Client;
 import ua.thecoon.lawsys.model.entity.Lawyer;
 import ua.thecoon.lawsys.model.entity.Schedule;
 import ua.thecoon.lawsys.service.LawyerService;
+import ua.thecoon.lawsys.service.ScheduleService;
 
 import java.util.List;
 
@@ -15,13 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LawyerController {
     private final LawyerService lawyerService;
-
-    @GetMapping("/lawyers")
-    public String getAllLawyers(Model model) {
-        List<Lawyer> lawyers = lawyerService.getAllLawyers();
-        model.addAttribute("lawyers", lawyers);
-        return "lawyers/list";
-    }
+    private final ScheduleService scheduleService;
 
     @GetMapping("lawyer/{id}")
     public String getLawyer(@PathVariable Long id, Model model) {
@@ -40,4 +35,11 @@ public class LawyerController {
         return "redirect:/lawyer/" + id;
     }
 
+    @GetMapping("/lawyers/schedule/{id}")
+    public String updateLawyerProfile(@PathVariable Long id, Model model) {
+        model.addAttribute("lawyerId", id);
+        model.addAttribute("schedule", scheduleService.getSchedule());
+
+        return "lawyer/lawyers-schedule";
+    }
 }

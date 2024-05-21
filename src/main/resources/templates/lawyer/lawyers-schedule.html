@@ -2,34 +2,41 @@
 <html xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Schedule Details</title>
-        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
         <link rel="stylesheet" th:href="@{/css/styles.css}">
     </head>
     <body>
         <div class="container">
-            <h1>Schedule Details</h1>
+            <h1 class="mt-4 mb-4">Schedule Details</h1>
             <div class="schedule-details">
                 <div class="row">
-                    <div class="col-md-6">
-                        <h2>Schedule Information</h2>
-                        <p><strong>ID:</strong> <span th:text="${schedule.id}"></span></p>
-                        <p><strong>Date:</strong> <span th:text="${schedule.date}"></span></p>
-                    </div>
-                    <div class="col-md-6">
-                        <h2>Lawyer Information</h2>
-                        <p><strong>Name:</strong> <span th:text="${schedule.lawyer.name}"></span></p>
-                        <p><strong>Email:</strong> <span th:text="${schedule.lawyer.email}"></span></p>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
                     <div class="col-md-12">
-                        <h2>Consultation Information</h2>
-                        <p><strong>Type:</strong> <span th:text="${schedule.consultation.consulType}"></span></p>
-                        <p><strong>Client Name:</strong> <span th:text="${schedule.consultation.client.name}"></span></p>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Consultation Type</th>
+                                <th>Lawyer Name</th>
+                                <th>Client Name</th>
+                                <th>Consultation Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="schedule : ${schedule}">
+                                <td th:text="${schedule.consultation.getDate().toLocalDate()}"></td>
+                                <td th:text="${schedule.consultation.getDate().toLocalTime()}"></td>
+                                <td th:text="${schedule.consultation.consulType}"></td>
+                                <td th:text="${schedule.lawyer.name}"></td>
+                                <td th:text="${schedule.consultation.client.name}"></td>
+                                <td th:text="${schedule.consultation.consultationStatus}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
+            <a th:href="@{/lawyer/{lawyerId}(lawyerId=${lawyerId})}" class="btn btn-primary">Return</a>
         </div>
     </body>
 </html>

@@ -9,9 +9,6 @@
         <div class="container">
             <h1 class="mt-4 mb-4">Lawyer Details</h1>
             <div class="card mb-4">
-                <div class="card-header">
-                    <h2>Lawyer Information</h2>
-                </div>
                 <div class="card-body">
                     <p><strong>Name:</strong> <span th:text="${lawyer.name}"></span></p>
                     <p><strong>Email:</strong> <span th:text="${lawyer.email}"></span></p>
@@ -24,10 +21,8 @@
 
                     <button class="btn btn-primary" data-toggle="modal" data-target="#editProfileModal">Edit</button>
 
-                    <!-- View General Schedule button -->
-                    <a href="/schedule/general" class="btn btn-secondary">View General Schedule</a>
+                    <a th:href="@{/lawyers/schedule/{id}(id=${lawyer.id})}" class="btn btn-secondary">View General Schedule</a>
 
-                    <!-- Logout button -->
                     <form action="/" method="get" style="display: inline;">
                         <button type="submit" class="btn btn-danger">Logout</button>
                     </form>

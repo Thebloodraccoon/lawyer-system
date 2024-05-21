@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Create Consultation - Step 3</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container mt-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <h1 class="mt-4 mb-4 text-center">Create Consultation</h1>
+                    <h3 class="text-center">Step 3</h3>
+                    <form th:action="@{/consultation/create/save/{id}(id=${clientId})}" method="post">
+                        <div class="form-group">
+                            <label for="name">Consultation Name:</label>
+                            <input type="text" class="form-control" id="name" name="name" th:value="${name}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Consultation Type:</label>
+                            <input type="text" class="form-control" id="type" name="type" th:value="${type}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="cost">Consultation Cost:</label>
+                            <input type="text" class="form-control" id="cost" name="cost" th:value="${cost}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="lawyer">Lawyer:</label>
+                            <input type="hidden" id="lawyer" name="lawyer" th:value="${lawyer.id}" readonly>
+                            <input type="text" class="form-control" id="lawyerName" th:value="${lawyer.name}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Select Date and Time:</label>
+                            <input type="datetime-local" class="form-control" id="date" name="date" required>
+                        </div>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

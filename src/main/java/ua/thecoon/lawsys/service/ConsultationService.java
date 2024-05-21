@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.thecoon.lawsys.model.entity.Consultation;
+import ua.thecoon.lawsys.model.entity.ConsultationType;
 import ua.thecoon.lawsys.repo.ConsultationJpaRepo;
 
 import java.util.List;
@@ -12,7 +13,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ConsultationService {
-
     private final ConsultationJpaRepo consultationJpaRepo;
 
     @Transactional(readOnly = true)
@@ -27,8 +27,8 @@ public class ConsultationService {
     }
 
     @Transactional
-    public Consultation createConsultation(Consultation consultation) {
-        return consultationJpaRepo.save(consultation);
+    public void createConsultation(Consultation consultation) {
+        consultationJpaRepo.save(consultation);
     }
 
     @Transactional
@@ -68,4 +68,21 @@ public class ConsultationService {
         consultationJpaRepo.delete(consultation);
         return true;
     }
+
+    public double getConsultationCost(ConsultationType type) {
+        return switch (type) {
+            case CIVIL_LAW -> 100.0;
+            case CRIMINAL_LAW -> 150.0;
+            case LABOR_LAW -> 120.0;
+            case FAMILY_LAW -> 130.0;
+            case REAL_ESTATE_AND_PROPERTY_LAW -> 140.0;
+            case CORPORATE_LAW -> 200.0;
+            case TAX_LAW -> 180.0;
+            case ADMINISTRATIVE_LAW -> 110.0;
+            case INTELLECTUAL_PROPERTY_LAW -> 170.0;
+            case BANKRUPTCY_AND_FINANCIAL_LAW -> 160.0;
+            default -> throw new IllegalArgumentException("Unknown consultation type: " + type);
+        };
+    }
+
 }

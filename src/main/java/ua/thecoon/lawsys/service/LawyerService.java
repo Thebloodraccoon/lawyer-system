@@ -4,6 +4,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.thecoon.lawsys.model.entity.ConsultationType;
 import ua.thecoon.lawsys.model.entity.Lawyer;
 import ua.thecoon.lawsys.repo.LawyerJpaRepo;
 
@@ -12,7 +13,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class LawyerService {
-
     private final LawyerJpaRepo lawyerJpaRepo;
 
     @Transactional(readOnly = true)
@@ -74,5 +74,10 @@ public class LawyerService {
     @Transactional(readOnly = true)
     public Lawyer findLawyerByEmail(String email) {
         return lawyerJpaRepo.findLawyerByEmail(email);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Lawyer> getLawyerByType(ConsultationType type) {
+        return lawyerJpaRepo.findLawyersBySpecialization(type);
     }
 }

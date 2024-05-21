@@ -15,7 +15,6 @@ import ua.thecoon.lawsys.service.LawyerService;
 import java.util.Optional;
 
 @Controller
-@RequestMapping
 @RequiredArgsConstructor
 public class LoginController {
     private final ClientService clientService;

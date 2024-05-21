@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -15,13 +16,15 @@ public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date date;
+
+    @Column(name = "date")
+    private LocalDateTime date;
 
     @ManyToOne
-    @JoinColumn(name = "lawyer_id", referencedColumnName = "id")
+    @JoinColumn(name = "lawyer_id")
     private Lawyer lawyer;
 
     @ManyToOne
-    @JoinColumn(name = "consultation_id", referencedColumnName = "id")
+    @JoinColumn(name = "consultation_id")
     private Consultation consultation;
 }
