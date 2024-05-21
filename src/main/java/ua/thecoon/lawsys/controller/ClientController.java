@@ -31,7 +31,8 @@ public class ClientController {
     }
 
     @PostMapping("client/{id}/update")
-    public String updateClientProfile(@PathVariable Long id, @ModelAttribute Client updatedClient) {
+    public String updateClientProfile(@PathVariable Long id,
+                                      @ModelAttribute Client updatedClient) {
         clientService.updateClient(id, updatedClient);
 
         return "redirect:/client/" + id;

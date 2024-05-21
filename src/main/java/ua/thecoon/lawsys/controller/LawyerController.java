@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ua.thecoon.lawsys.model.entity.Client;
 import ua.thecoon.lawsys.model.entity.Lawyer;
 import ua.thecoon.lawsys.model.entity.Schedule;
 import ua.thecoon.lawsys.service.LawyerService;
@@ -31,17 +32,12 @@ public class LawyerController {
     }
 
 
-    @GetMapping("/{id}/edit")
-    public String showEditForm(@PathVariable Long id, Model model) {
-        Lawyer lawyer = lawyerService.getLawyer(id);
-        model.addAttribute("lawyer", lawyer);
-        return "lawyers/form"; // Имя шаблона с формой редактирования юриста
-    }
-
-    @PostMapping("/{id}")
-    public String updateLawyer(@PathVariable Long id, @ModelAttribute Lawyer lawyer) {
+    @PostMapping("lawyer/{id}/update")
+    public String updateLawyerProfile(@PathVariable Long id,
+                                      @ModelAttribute Lawyer lawyer) {
         lawyerService.updateLawyer(id, lawyer);
-        return "redirect:/lawyers"; // Перенаправление на страницу со списком юристов
+
+        return "redirect:/lawyer/" + id;
     }
 
 }

@@ -36,14 +36,29 @@ public class LawyerService {
         Lawyer existingLawyer = lawyerJpaRepo.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Lawyer not found with id " + id));
 
-        existingLawyer.setName(lawyerDetails.getName());
-        existingLawyer.setEmail(lawyerDetails.getEmail());
-        existingLawyer.setPhoneNum(lawyerDetails.getPhoneNum());
-        existingLawyer.setSpecialization(lawyerDetails.getSpecialization());
-        existingLawyer.setYearsOfExperience(lawyerDetails.getYearsOfExperience());
-        existingLawyer.setLicenseNumber(lawyerDetails.getLicenseNumber());
-        existingLawyer.setOfficeAddress(lawyerDetails.getOfficeAddress());
-        existingLawyer.setBio(lawyerDetails.getBio());
+
+        if (lawyerDetails.getName() != null) {
+            existingLawyer.setName(lawyerDetails.getName());
+        }
+        if (lawyerDetails.getEmail() != null) {
+            existingLawyer.setEmail(lawyerDetails.getEmail());
+        }
+        if (lawyerDetails.getPhoneNum() != null) {
+            existingLawyer.setPhoneNum(lawyerDetails.getPhoneNum());
+        }
+
+        if (lawyerDetails.getYearsOfExperience() >= 1) {
+            existingLawyer.setYearsOfExperience(lawyerDetails.getYearsOfExperience());
+        }
+        if (lawyerDetails.getLicenseNumber() != null) {
+            existingLawyer.setLicenseNumber(lawyerDetails.getLicenseNumber());
+        }
+        if (lawyerDetails.getOfficeAddress() != null) {
+            existingLawyer.setOfficeAddress(lawyerDetails.getOfficeAddress());
+        }
+        if (lawyerDetails.getBio() != null) {
+            existingLawyer.setBio(lawyerDetails.getBio());
+        }
 
         return lawyerJpaRepo.save(existingLawyer);
     }

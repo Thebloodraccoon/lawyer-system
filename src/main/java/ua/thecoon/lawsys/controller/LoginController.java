@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.thecoon.lawsys.model.entity.Client;
+import ua.thecoon.lawsys.model.entity.Lawyer;
 import ua.thecoon.lawsys.service.ClientService;
+import ua.thecoon.lawsys.service.LawyerService;
 
 import java.util.Optional;
 
@@ -17,13 +19,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class LoginController {
     private final ClientService clientService;
+    private final LawyerService lawyerService;
+
     @GetMapping("/")
     public String getHomePage() {
         return "index";
     }
 
     @PostMapping("/client/login")
-    public String getLogin(@RequestParam("email") String email,
+    public String getClientLogin(@RequestParam("email") String email,
                            @RequestParam("password") String password,
                            Model model) {
         Client existingClient = clientService.findClientByEmail(email);
@@ -36,6 +40,21 @@ public class LoginController {
         model.addAttribute("error", "Invalid email or password");
         return "index";
     }
+
+    @PostMapping("/employee/login")
+    public String getEmployeeLogin(@RequestParam("employeeEmail") String email,
+                                   @RequestParam("employeePassword") String password,
+                                   Model model) {
+        Lawyer lawyerByEmail = lawyerService.findLawyerByEmail(email);
+
+        if (lawyerByEmail != null && lawyerByEmail.getPassword().equals(password)) {
+            return "redirect:/lawyer/" + lawyerByEmail.getId();
+        }
+
+        model.addAttribute("error", "Invalid email or password");
+        return "index";
+    }
+
 
     @PostMapping("/register")
     public String registerClient(@RequestParam("client-name") String name,

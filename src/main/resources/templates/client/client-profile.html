@@ -33,30 +33,29 @@
 
             <table class="table mt-3">
                 <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Date</th>
-                    <th>Cost</th>
-                    <th>Status</th>
-                    <th>Lawyer</th>
-                    <th>Action</th>
-                </tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Cost</th>
+                        <th>Status</th>
+                        <th>Lawyer</th>
+                        <th>Action</th>
+                    </tr>
                 </thead>
                 <tbody>
-                <tr th:each="consultation : ${client.getConsultations()}">
-                    <td th:text="${consultation.id}"></td>
-                    <td th:text="${consultation.name}"></td>
-                    <td th:text="${consultation.consulType}"></td>
-                    <td th:text="${#dates.format(consultation.date, 'yyyy-MM-dd HH:mm')}"></td>
-                    <td th:text="${consultation.cost}"></td>
-                    <td th:text="${consultation.consultationStatus}"></td>
-                    <td th:text="${consultation.lawyer.getName()}"></td>
-                    <td>
-                        <button class="btn btn-danger" onclick="confirmDeleteConsultation(${consultation.id})">Delete</button>
-                    </td>
-                </tr>
+                    <tr th:each="consultation : ${client.getConsultations()}">
+                        <td th:text="${consultation.id}"></td>
+                        <td th:text="${consultation.name}"></td>
+                        <td th:text="${consultation.consulType}"></td>
+                        <td th:text="${consultation.getDate().toLocalDate()} + ' ' + ${consultation.getDate().toLocalTime()}"></td>                        <td th:text="${consultation.cost}"></td>
+                        <td th:text="${consultation.consultationStatus}"></td>
+                        <td th:text="${consultation.lawyer.getName()}"></td>
+                        <td>
+                            <button class="btn btn-danger" onclick="confirmDeleteConsultation(${consultation.id})">Delete</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -160,6 +159,7 @@
                     alert('Пожалуйста, заполните все поля.');
                     return;
                 }
+
                 var updatedProfile = {
                     name: newName,
                     email: newEmail,

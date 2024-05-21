@@ -15,16 +15,16 @@ public class Client {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "phone_num", nullable = false)
+    @Column(name = "phone_num")
     private String phoneNum;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)

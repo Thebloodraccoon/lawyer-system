@@ -2,12 +2,14 @@ package ua.thecoon.lawsys.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
 @Data
 @Entity(name = "Lawyer")
 @Table(name = "t_lawyer")
+@ToString
 public class Lawyer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +27,9 @@ public class Lawyer {
     @Column(name = "phone_num")
     private String phoneNum;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "specialization")
-    private String specialization;
+    private ConsultationType specialization;
 
     @Column(name = "years_of_experience")
     private int yearsOfExperience;
@@ -40,6 +43,6 @@ public class Lawyer {
     @Column(name = "bio")
     private String bio;
 
-    @OneToMany(mappedBy = "lawyer")
+    @OneToMany(mappedBy = "lawyer", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Consultation> consultations;
 }

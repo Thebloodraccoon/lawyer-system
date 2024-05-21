@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -16,12 +17,22 @@ public class Consultation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String consulType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "consul_type")
+    private ConsultationType consulType;
+
+    @Column(name = "name")
     private String name;
-    private Date date;
+
+    @Column(name = "date")
+    private LocalDateTime date;
+
+
     private Double cost;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "consultation_status")
     private ConsultationStatus consultationStatus;
 
     @ManyToOne

@@ -9,10 +9,10 @@ CREATE TABLE IF NOT EXISTS t_client (
 CREATE TABLE IF NOT EXISTS t_lawyer (
                                         id INT PRIMARY KEY AUTO_INCREMENT,
                                         name VARCHAR(255) NOT NULL,
-                                        email VARCHAR(255) UNIQUE NOT NULL,
+                                        email VARCHAR(255) UNIQUE UNIQUE NOT NULL,
                                         password VARCHAR(255) NOT NULL,
                                         phone_num VARCHAR(40) NOT NULL,
-                                        specialization VARCHAR(255) NOT NULL,
+                                        specialization ENUM('CIVIL_LAW', 'CRIMINAL_LAW', 'LABOR_LAW', 'FAMILY_LAW', 'REAL_ESTATE_AND_PROPERTY_LAW', 'CORPORATE_LAW', 'TAX_LAW', 'ADMINISTRATIVE_LAW', 'INTELLECTUAL_PROPERTY_LAW', 'BANKRUPTCY_AND_FINANCIAL_LAW') NOT NULL DEFAULT 'CIVIL_LAW',
                                         years_of_experience INT NOT NULL,
                                         license_number VARCHAR(255) NOT NULL,
                                         office_address VARCHAR(255),
@@ -21,9 +21,9 @@ CREATE TABLE IF NOT EXISTS t_lawyer (
 
 CREATE TABLE IF NOT EXISTS t_consultation (
                                               id INT PRIMARY KEY AUTO_INCREMENT,
-                                              consul_type VARCHAR(255) NOT NULL,
+                                              consul_type ENUM('CIVIL_LAW', 'CRIMINAL_LAW', 'LABOR_LAW', 'FAMILY_LAW', 'REAL_ESTATE_AND_PROPERTY_LAW', 'CORPORATE_LAW', 'TAX_LAW', 'ADMINISTRATIVE_LAW', 'INTELLECTUAL_PROPERTY_LAW', 'BANKRUPTCY_AND_FINANCIAL_LAW') NOT NULL DEFAULT 'CIVIL_LAW',
                                               name VARCHAR(255) NOT NULL,
-                                              date DATE NOT NULL,
+                                              date DATETIME  NOT NULL,
                                               cost DOUBLE NOT NULL,
                                               consultation_status ENUM('Planned', 'Canceled', 'Completed') NOT NULL DEFAULT 'Planned',
                                               lawyer_id INT NOT NULL,
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS t_payment (
 
 CREATE TABLE IF NOT EXISTS t_schedule (
                                            id INT PRIMARY KEY AUTO_INCREMENT,
-                                           date DATE NOT NULL,
+                                           date DATETIME  NOT NULL,
                                            lawyer_id INT NOT NULL,
                                            consultation_id INT NOT NULL,
                                            FOREIGN KEY (lawyer_id) REFERENCES t_lawyer(id),
