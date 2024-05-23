@@ -1,6 +1,8 @@
 package ua.thecoon.lawsys.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ua.thecoon.lawsys.model.entity.Client;
 import ua.thecoon.lawsys.model.entity.Consultation;
@@ -9,11 +11,17 @@ import ua.thecoon.lawsys.service.AdminService;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
     private final AdminService adminService;
+
+    @GetMapping
+    public String getIndex() {
+        return "admin/admin-dashboard";
+    }
+
 
     @PostMapping("/save-lawyer")
     public Lawyer saveLawyer(@RequestBody Lawyer lawyer) {
@@ -21,75 +29,148 @@ public class AdminController {
     }
 
     @GetMapping("/lawyers")
-    public List<Lawyer> getAllLawyers() {
+    public String getAllLawyers(Model model) {
         List<Lawyer> allLawyers = adminService.getAllLawyers();
-        return allLawyers;
+
+
+        model.addAttribute("data", allLawyers);
+        model.addAttribute("type", "lawyers");
+
+        return "admin/admin-dashboard";
     }
 
     @GetMapping("/clients")
-    public List<Client> getAllClients() {
+    public String getAllClients(Model model) {
         List<Client> allClients = adminService.getAllClients();
-        return allClients;
+
+        model.addAttribute("data", allClients);
+        model.addAttribute("type", "clients");
+
+        return "admin/admin-dashboard";
     }
 
     @GetMapping("/consultations")
-    public List<Consultation> getAllConsultations() {
+    public String getAllConsultations(Model model) {
         List<Consultation> allConsultations = adminService.getAllConsultations();
-        return allConsultations;
+
+        model.addAttribute("data", allConsultations);
+        model.addAttribute("type", "consultations");
+
+        return "admin/admin-dashboard";
     }
 
+//    @RequestParam String type
     @GetMapping("/consultations/type-like")
-    public List<Consultation> getConsultationsByTypeLike(@RequestParam String type) {
-        return adminService.getConsultationsByTypeLike(type);
+    public String getConsultationsByTypeLike(Model model) {
+        List<Consultation> allConsultations = adminService.getConsultationsByTypeLike("Cr");
+
+        model.addAttribute("data", allConsultations);
+        model.addAttribute("type", "consultationsByType");
+
+        return "admin/admin-dashboard";
     }
 
     @GetMapping("/clients-consul-date")
-    public List<Object[]> getClientByConsulDate() {
-        return adminService.getAllClientsByConsultDate();
+    public String getClientByConsulDate(Model model) {
+        List<Consultation> byDate = adminService.getAllClientsByConsultDate();
+
+        model.addAttribute("data", byDate);
+        model.addAttribute("type", "consultationsByDate");
+
+        return "admin/admin-dashboard";
     }
 
     @GetMapping("/lawyer-schedule-may")
-    public List<Object[]> getLawyerScheduleForMay() {
-        return adminService.getLawyerScheduleForMay();
+    public String getLawyerScheduleForMay(Model model) {
+        List<Object[]> lawyerScheduleForMay = adminService.getLawyerScheduleForMay();
+
+        model.addAttribute("data", lawyerScheduleForMay);
+        model.addAttribute("type", "lawyerScheduleForMay");
+
+        return "admin/admin-dashboard";
     }
 
     @GetMapping("/client-count")
-    public long getClientCount() {
-        return adminService.getClientCount();
+    public String getClientCount(Model model) {
+        long clientCount = adminService.getClientCount();
+        return "admin/admin-dashboard";
     }
 
     @GetMapping("/consultation-count-by-lawyer")
-    public List<Object[]> getConsultationCountByLawyer() {
-        return adminService.getConsultationCountByLawyer();
+    public String getConsultationCountByLawyer(Model model) {
+        List<Object[]> countOfConsulForEachClient = adminService.getCountOfConsulForEachClient();
+
+        model.addAttribute("data", countOfConsulForEachClient);
+        model.addAttribute("type", "consulForClient");
+
+        return "admin/admin-dashboard";
     }
 
+    // Запит 6
     @GetMapping("/lawyer-most-consultations")
-    public List<Lawyer> getLawyerWithMostConsultations() {
-        return adminService.getLawyerWithMostConsultations();
+    public String getLawyerWithMostConsultations(Model model) {
+        List<Lawyer> lawyerWithMostConsultations = adminService.getLawyerWithMostConsultations();
+
+        model.addAttribute("data", lawyerWithMostConsultations);
+        model.addAttribute("type", "mostLawyer");
+
+        return "admin/admin-dashboard";
     }
 
+    // Запит 7
     @GetMapping("/consultation-count-for-each-lawyer")
-    public List<Object[]> getConsultationCountForEachLawyer() {
-        return adminService.getConsultationCountForEachLawyer();
+    public String getConsultationCountForEachLawyer(Model model) {
+        List<Object[]> consultationCountForEachLawyer = adminService.getConsultationCountForEachLawyer();
+
+        model.addAttribute("data", consultationCountForEachLawyer);
+        model.addAttribute("type", "consulForLaw");
+
+        return "admin/admin-dashboard";
     }
 
+    // Запит 8.1
     @GetMapping("/clients-without-consultations-left-join")
-    public List<Client> getClientsWithoutConsultationsLeftJoin() {
-        return adminService.getClientsWithoutConsultationsLeftJoin();
+    public String getClientsWithoutConsultationsLeftJoin(Model model) {
+        List<Client> clientsWithoutConsultationsLeftJoin = adminService.getClientsWithoutConsultationsLeftJoin();
+
+        model.addAttribute("data", clientsWithoutConsultationsLeftJoin);
+        model.addAttribute("type", "leftJoin");
+
+        return "admin/admin-dashboard";
     }
 
+    // Запит 8.2
     @GetMapping("/clients-without-consultations-not-in")
-    public List<Client> getClientsWithoutConsultationsNotIn() {
-        return adminService.getClientsWithoutConsultationsNotIn();
+    public String getClientsWithoutConsultationsNotIn(Model model) {
+        List<Client> clientsWithoutConsultationsNotIn = adminService.getClientsWithoutConsultationsNotIn();
+
+        model.addAttribute("data", clientsWithoutConsultationsNotIn);
+        model.addAttribute("type", "notIn");
+
+        return "admin/admin-dashboard";
     }
 
+    // Запит 8.3
     @GetMapping("/clients-without-consultations-exists")
-    public List<Client> getClientsWithoutConsultationsExists() {
-        return adminService.getClientsWithoutConsultationsExists();
+    public String getClientsWithoutConsultationsExists(Model model) {
+        List<Client> clientsWithoutConsultationsExists = adminService.getClientsWithoutConsultationsExists();
+
+        model.addAttribute("data", clientsWithoutConsultationsExists);
+        model.addAttribute("type", "exists");
+
+
+        return "admin/admin-dashboard";
     }
 
+
+    // Запит 9
     @GetMapping("/clients-and-lawyers-with-role")
-    public List<Object[]> getClientsAndLawyersWithRole() {
-        return adminService.getClientsAndLawyersWithRole();
+    public String getClientsAndLawyersWithRole(Model model) {
+        List<Object[]> clientsAndLawyersWithRole = adminService.getClientsAndLawyersWithRole();
+
+        model.addAttribute("data", clientsAndLawyersWithRole);
+        model.addAttribute("type", "users");
+
+        return "admin/admin-dashboard";
     }
 }

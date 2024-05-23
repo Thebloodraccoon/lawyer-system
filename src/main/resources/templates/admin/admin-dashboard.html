@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Admin Dashboard</title>
+        <link rel="stylesheet" th:href="@{/css/styles.css}">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container container-lg">
+            <h1 class="mt-5">Admin Dashboard</h1>
+            <nav class="mb-4">
+                <!-- Загальні запити -->
+                <a href="/admin/lawyers" class="btn btn-primary my-2">Lawyers</a>
+                <a href="/admin/clients" class="btn btn-primary my-2">Clients</a>
+                <a href="/admin/consultations" class="btn btn-primary my-2">Consultations</a>
+
+                <!-- Запит 1 -->
+                <a href="/admin/clients-consul-date" class="btn btn-primary my-2">Consultation by date</a>
+
+                <!-- Запит 2 -->
+                <a href="/admin/consultations/type-like" class="btn btn-primary my-2">Consultations by type</a>
+
+                <!-- Запит 3 -->
+                <a href="/admin/lawyer-schedule-may" class="btn btn-primary my-2">Lawyer schedule by may</a>
+
+                <!-- Запит 4 -->
+                <a href="/admin/client-count" class="btn btn-primary my-2">Client Count</a>
+
+                <!-- Запит 5 -->
+                <a href="/admin/consultation-count-by-lawyer" class="btn btn-primary my-2">Consultations count for each client</a>
+
+                <!-- Запит 6 -->
+                <a href="/admin/lawyer-most-consultations" class="btn btn-primary my-2">Lawyer with the most consultation</a>
+
+                <!-- Запит 7 -->
+                <a href="/admin/consultation-count-for-each-lawyer" class="btn btn-primary my-2">Consultations count for each lawyer</a>
+
+                <!-- Запити 8 -->
+                <a href="/admin/clients-without-consultations-left-join" class="btn btn-primary my-2">Clients without consultations by left join</a>
+                <a href="/admin/clients-without-consultations-not-in" class="btn btn-primary my-2">Clients without consultations by not in</a>
+                <a href="/admin/clients-without-consultations-exists" class="btn btn-primary my-2">Clients without consultations by exists</a>
+
+                <!-- Запит 9 -->
+                <a href="/admin/clients-and-lawyers-with-role" class="btn btn-primary my-2">All users</a>
+            </nav>
+
+            <div class="table-responsive">
+                <table id="data-table" class="table table-striped table-bordered">
+                    <thead>
+                        <!-- Загальний запит -->
+                        <tr th:if="${type == 'lawyers'}">
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone number</th>
+                            <th>Specialization</th>
+                            <th>Years of experience</th>
+                            <th>License Number</th>
+                            <th>Office address</th>
+                        </tr>
+
+                        <!-- Загальний запит -->
+                        <tr th:if="${type == 'clients'}">
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone number</th>
+                        </tr>
+
+                        <!-- Загальний запит та запит 2 -->
+                        <tr th:if="${type == 'consultations'
+                        || type == 'consultationsByType'}">
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                            <th>Lawyer</th>
+                            <th>Client</th>
+                        </tr>
+
+                        <!-- Запит 1 -->
+                        <tr th:if="${type == 'consultationsByDate'}">
+                            <th>ID</th>
+                            <th>Type</th>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Cost</th>
+                            <th>Status</th>
+                            <th>Client</th>
+                            <th>Lawyer</th>
+                        </tr>
+
+                        <!-- Запит 3 -->
+                        <tr th:if="${type == 'lawyerScheduleForMay'}">
+                            <th>Date</th>
+                            <th>Lawyer</th>
+                            <th>Consultation Name</th>
+                        </tr>
+
+                        <!-- Запит 5 -->
+                        <tr th:if="${type == 'consulForClient'}">
+                            <th>ID</th>
+                            <th>Client Name</th>
+                            <th>Consultation count</th>
+                        </tr>
+
+                        <!-- Запит 6 -->
+                        <tr th:if="${type == 'mostLawyer'}">
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Consultation count</th>
+                        </tr>
+
+                        <!-- Запит 7 -->
+                        <tr th:if="${type == 'consulForLaw'}">
+                            <th>ID</th>
+                            <th>Lawyer Name</th>
+                            <th>Consultation count</th>
+                        </tr>
+
+                        <!-- Запит 8 -->
+                        <tr th:if="${type == 'leftJoin'
+                        || type == 'notIn'
+                        || type == 'exists'}">
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone number</th>
+                        </tr>
+
+                        <!-- Запит 9 -->
+                        <tr th:if="${type == 'users'}">
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Загальний запит -->
+                        <tr th:each="lawyer : ${data}" th:if="${type == 'lawyers'}">
+                            <td th:text="${lawyer.id}"></td>
+                            <td th:text="${lawyer.name}"></td>
+                            <td th:text="${lawyer.email}"></td>
+                            <td th:text="${lawyer.phoneNum}"></td>
+                            <td th:text="${lawyer.specialization}"></td>
+                            <td th:text="${lawyer.yearsOfExperience}"></td>
+                            <td th:text="${lawyer.licenseNumber}"></td>
+                            <td th:text="${lawyer.officeAddress}"></td>
+                        </tr>
+
+                        <!-- Загальний запит та запит 8 -->
+                        <tr th:each="client : ${data}" th:if="${type == 'clients'}">
+                            <td th:text="${client.id}"></td>
+                            <td th:text="${client.name}"></td>
+                            <td th:text="${client.email}"></td>
+                            <td th:text="${client.phoneNum}"></td>
+                        </tr>
+
+                        <!-- Загальний запит та запит 2 -->
+                        <tr th:each="consultation : ${data}" th:if="${type == 'consultations'
+                        || type == 'consultationsByType'}">
+                            <td th:text="${consultation.id}"></td>
+                            <td th:text="${consultation.consulType}"></td>
+                            <td th:text="${consultation.name}"></td>
+                            <td th:text="${consultation.getDate().toLocalDate()} + ' ' + ${consultation.getDate().toLocalTime()}"></td>
+                            <td th:text="${consultation.cost}"></td>
+                            <td th:text="${consultation.consultationStatus}"></td>
+                            <td th:text="${consultation.lawyer.name}"></td>
+                            <td th:text="${consultation.client.name}"></td>
+                        </tr>
+
+                        <!-- Запит 1 -->
+                        <tr th:each="result : ${data}" th:if="${type == 'consultationsByDate'}">
+                            <td th:text="${result[0].id}"></td>
+                            <td th:text="${result[0].consulType}"></td>
+                            <td th:text="${result[0].name}"></td>
+                            <td th:text="${result[0].getDate().toLocalDate()} + ' ' + ${result[0].getDate().toLocalTime()}"></td>
+                            <td th:text="${result[0].cost}"></td>
+                            <td th:text="${result[0].consultationStatus}"></td>
+                            <td th:text="${result[1]}"></td>
+                            <td th:text="${result[2]}"></td>
+                        </tr>
+
+                        <!-- Запит 3 -->
+                        <tr th:each="result : ${data}" th:if="${type == 'lawyerScheduleForMay'}">
+                            <td th:text="${#dates.format(result[0], 'dd-MM-yyyy HH:mm')}"></td>
+                            <td th:text="${result[1]}"></td>
+                            <td th:text="${result[2]}"></td>
+                        </tr>
+
+                        <!-- Запит 5 -->
+                        <tr th:each="result : ${data}" th:if="${ type == 'consulForClient'}">
+                            <td th:text="${result[0]}"></td>
+                            <td th:text="${result[1]}"></td>
+                            <td th:text="${result[2]}"></td>
+                        </tr>
+
+                        <!-- Запит 6 -->
+                        <tr th:each="result : ${data}" th:if="${ type == 'mostLawyer'}">
+                            <td th:text="${result[0]}"></td>
+                            <td th:text="${result[1]}"></td>
+                            <td th:text="${result[2]}"></td>
+                            <td th:text="${result[3]}"></td>
+                        </tr>
+
+                        <!-- Запит 7 -->
+                        <tr th:each="result : ${data}" th:if="${ type == 'consulForLaw'}">
+                            <td th:text="${result[0]}"></td>
+                            <td th:text="${result[1]}"></td>
+                            <td th:text="${result[2]}"></td>
+                        </tr>
+
+                        <!-- Запит 8 -->
+                        <tr th:each="client : ${data}" th:if="${ type == 'leftJoin'
+                        || type == 'notIn'
+                        || type == 'exists'}">
+                            <td th:text="${client[0]}"></td>
+                            <td th:text="${client[1]}"></td>
+                            <td th:text="${client[2]}"></td>
+                            <td th:text="${client[4]}"></td>
+                        </tr>
+
+                        <!-- Запит 9 -->
+                        <tr th:each="result : ${data}" th:if="${ type == 'users'}">
+                            <td th:text="${result[0]}"></td>
+                            <td th:text="${result[1]}"></td>
+                            <td th:text="${result[2]}"></td>
+                            <td th:text="${result[3]}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </body>
+</html>

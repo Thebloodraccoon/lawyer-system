@@ -31,20 +31,12 @@ public class AdminService {
     public List<Lawyer> getAllLawyers() {
         List<Lawyer> all = lawyerJpaRepo.findAll();
 
-        all.forEach(lawyer -> {
-            lawyer.setConsultations(null);
-        });
-
         return all;
     }
 
     @Transactional(readOnly = true)
     public List<Client> getAllClients() {
         List<Client> all = clientJpaRepo.findAll();
-
-        all.forEach(client -> {
-            client.setConsultations(null);
-        });
 
         return all;
     }
@@ -53,51 +45,27 @@ public class AdminService {
     public List<Consultation> getAllConsultations() {
         List<Consultation> all = consultationJpaRepo.findAll();
 
-        all.forEach(consultation -> {
-            consultation.setPayments(null);
-            consultation.setClient(null);
-            consultation.setLawyer(null);
-        });
-
         return all;
     }
 
     // Запит 1 вибір з декількох таблиць із сортуванням
     @Transactional(readOnly = true)
-    public List<Object[]> getAllClientsByConsultDate() {
+    public List<Consultation> getAllClientsByConsultDate() {
         String jpql = "SELECT c, cl.name AS client_name, l.name AS lawyer_name " +
                     "FROM Consultation c " +
                     "JOIN c.lawyer l " +
                     "JOIN c.client cl " +
                     "ORDER BY c.date DESC";
 
-
-        List<Object[]> results  = customRepo.executeQuery(jpql);
-        List<Consultation> consultations = new ArrayList<>();
-
-        for (Object[] result : results) {
-            Consultation consultation = (Consultation) result[0];
-            consultation.setPayments(null);
-            consultation.setClient(null);
-            consultation.setLawyer(null);
-        }
-
-        return results;
+        return customRepo.executeQuery(jpql);
     }
 
     // Запит 2 умови відбору з використанням предиката LІKE
     @Transactional(readOnly = true)
     public List<Consultation> getConsultationsByTypeLike(String type) {
         String jpql = "SELECT c FROM Consultation c WHERE c.consulType LIKE '%" + type + "%'";
-        List<Consultation> types = customRepo.executeQuery(jpql);
 
-        types.forEach(consultation -> {
-            consultation.setPayments(null);
-            consultation.setClient(null);
-            consultation.setLawyer(null);
-        });
-
-        return types;
+        return customRepo.executeQuery(jpql);
     }
 
     // Запит 3 умови відбору з використанням предиката BETWEEN
@@ -120,12 +88,19 @@ public class AdminService {
 
     // Запит 5 Агрегатна функція з угрупованням (кількість консультацій у юриста)
     @Transactional(readOnly = true)
-    public List<Object[]> getConsultationCountByLawyer() {
-        String sql = "SELECT c.lawyer_id, COUNT(*) AS consultation_count, l.name AS lawyer_name " +
-                "FROM t_consultation c " +
-                "JOIN t_lawyer l ON c.lawyer_id = l.id " +
-                "GROUP BY c.lawyer_id, l.name " +
-                "ORDER BY consultation_count DESC";
+    public List<Object[]> getCountOfConsulForEachClient() {
+        String sql = "SELECT " +
+                "    c.client_id, " +
+                "    cl.name AS client_name, " +
+                "    COUNT(*) AS consultation_count " +
+                "FROM " +
+                "    t_consultation c " +
+                "JOIN " +
+                "    t_client cl ON c.client_id = cl.id " +
+                "GROUP BY " +
+                "    c.client_id, cl.name " +
+                "ORDER BY " +
+                "    COUNT(*) DESC";
 
         return customRepo.executeNativeQuery(sql);
     }
@@ -133,21 +108,32 @@ public class AdminService {
     // Запит 6 використання предиката ALL або ANY
     @Transactional(readOnly = true)
     public List<Lawyer> getLawyerWithMostConsultations() {
-        String sql = "SELECT id, name FROM t_lawyer WHERE id = ALL (" +
-                "    SELECT lawyer_id FROM t_consultation " +
-                "    GROUP BY lawyer_id " +
-                "    HAVING COUNT(*) >= ALL (" +
-                "        SELECT COUNT(*) FROM t_consultation " +
-                "        GROUP BY lawyer_id" +
-                "    )" +
-                ")";
+        String sql = "SELECT " +
+                "    l.id, " +
+                "    l.name, " +
+                "    l.email, " +
+                "    (SELECT COUNT(*) FROM t_consultation WHERE lawyer_id = l.id) AS consultation_count " +
+                "FROM " +
+                "    t_lawyer l " +
+                "WHERE " +
+                "    l.id = ALL ( " +
+                "        SELECT lawyer_id " +
+                "        FROM t_consultation " +
+                "        GROUP BY lawyer_id " +
+                "        HAVING COUNT(*) >= ALL ( " +
+                "            SELECT COUNT(*) " +
+                "            FROM t_consultation " +
+                "            GROUP BY lawyer_id " +
+                "        ) " +
+                "    )";
+
         return customRepo.executeNativeQuery(sql);
     }
 
     // Запит 7 Корельований підзапит
     @Transactional(readOnly = true)
     public List<Object[]> getConsultationCountForEachLawyer() {
-        String sql = "SELECT name, (SELECT COUNT(*) FROM t_consultation WHERE lawyer_id = l.id) AS consultation_count " +
+        String sql = "SELECT l.id, name, (SELECT COUNT(*) FROM t_consultation WHERE lawyer_id = l.id) AS consultation_count " +
                 "FROM t_lawyer l";
         return customRepo.executeNativeQuery(sql);
     }
