@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @Entity(name = "Consultation")
 @Table(name = "t_consultation")
-@ToString(exclude = {"client", "lawyer"})
+@ToString(exclude = {"client", "lawyer", "payments"})
 public class Consultation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,11 +35,11 @@ public class Consultation {
     @Column(name = "consultation_status")
     private ConsultationStatus consultationStatus;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lawyer_id")
     private Lawyer lawyer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id")
     private Client client;
 

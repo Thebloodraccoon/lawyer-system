@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Entity(name = "Lawyer")
 @Table(name = "t_lawyer")
-@ToString
+@ToString(exclude = "consultations")
 public class Lawyer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

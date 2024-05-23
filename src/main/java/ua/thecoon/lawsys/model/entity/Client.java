@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @Entity(name = "Client")
 @Table(name = "t_client")
-@ToString
+@ToString(exclude = "consultations")
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +27,6 @@ public class Client {
     @Column(name = "phone_num")
     private String phoneNum;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Consultation> consultations;
 }
