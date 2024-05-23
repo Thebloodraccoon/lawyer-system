@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.thecoon.lawsys.model.entity.Client;
 import ua.thecoon.lawsys.repo.ClientJpaRepo;
+import ua.thecoon.lawsys.repo.ConsultationJpaRepo;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ClientService {
     private final ClientJpaRepo clientJpaRepo;
+    private final ConsultationJpaRepo consultationJpaRepo;
 
     @Transactional(readOnly = true)
     public List<Client> getAllClients() {
@@ -51,9 +53,15 @@ public class ClientService {
 
     @Transactional
     public boolean deleteClient(Long id) {
-        Client client = clientJpaRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
-        clientJpaRepo.delete(client);
+        clientJpaRepo.deleteById(id);
+
+        return true;
+    }
+
+    @Transactional
+    public boolean deleteClientConsultation(Long id) {
+        consultationJpaRepo.deleteById(id);
+
         return true;
     }
 

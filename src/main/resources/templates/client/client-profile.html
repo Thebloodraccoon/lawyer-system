@@ -54,7 +54,9 @@
                         <td th:text="${consultation.consultationStatus}"></td>
                         <td th:text="${consultation.lawyer.getName()}"></td>
                         <td>
-                            <button class="btn btn-danger" onclick="confirmDeleteConsultation(${consultation.id})">Сancel</button>
+                            <form th:action="@{/client/consultation/delete/{clientId}/{consultationId}(clientId=${client.id}, consultationId=${consultation.id})}" method="post">
+                                <button class="btn btn-danger" type="submit">Cancel</button>
+                            </form>
                         </td>
                     </tr>
                 </tbody>
@@ -184,6 +186,7 @@
             }
 
             document.getElementById('editProfileForm').addEventListener('submit', saveProfileChanges);
+
         </script>
     </body>
 </html>

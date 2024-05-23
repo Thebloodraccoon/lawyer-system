@@ -41,4 +41,12 @@ public class ClientController {
         
         return "index";
     }
+
+    @PostMapping("/client/consultation/delete/{clientId}/{consultationId}")
+    public String deleteClientConsultation(@PathVariable Long clientId,
+                                           @PathVariable Long consultationId) {
+        clientService.deleteClientConsultation(consultationId);
+
+        return "redirect:/client/" + clientId;
+    }
 }
