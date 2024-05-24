@@ -1,5 +1,6 @@
 package ua.thecoon.lawsys.service;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Getter
 public class AdminService {
     private final ClientJpaRepo clientJpaRepo;
     private final LawyerJpaRepo lawyerJpaRepo;

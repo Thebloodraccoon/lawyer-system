@@ -182,11 +182,12 @@
                     alert('Password must be at least 6 characters long.');
                     return;
                 }
-
-                // Additional validations can be added here (e.g., phone number format)
             });
         </script>
-
+        <script th:if="${error != null}" th:inline="javascript">
+            var errorMessage = [[${error}]];
+            alert(errorMessage);
+        </script>
 
     </body>
 </html>

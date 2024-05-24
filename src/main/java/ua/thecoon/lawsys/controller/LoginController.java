@@ -31,12 +31,17 @@ public class LoginController {
                            Model model) {
         Client existingClient = clientService.findClientByEmail(email);
 
+        if (existingClient == null) {
+            model.addAttribute("error", "Invalid email");
+            return "index";
+        }
+
 
         if (existingClient.getPassword().equals(password)) {
             return "redirect:/client/" + existingClient.getId();
         }
 
-        model.addAttribute("error", "Invalid email or password");
+        model.addAttribute("error", "Invalid password");
         return "index";
     }
 
@@ -50,11 +55,18 @@ public class LoginController {
 
         Lawyer lawyerByEmail = lawyerService.findLawyerByEmail(email);
 
-        if (lawyerByEmail != null && lawyerByEmail.getPassword().equals(password)) {
+        if (lawyerByEmail == null) {
+            model.addAttribute("error", "Invalid email");
+            return "index";
+        }
+
+
+
+        if (lawyerByEmail.getPassword().equals(password)) {
             return "redirect:/lawyer/" + lawyerByEmail.getId();
         }
 
-        model.addAttribute("error", "Invalid email or password");
+        model.addAttribute("error", "Invalid password");
         return "index";
     }
 
@@ -71,7 +83,7 @@ public class LoginController {
 
         if (existingClient != null) {
             model.addAttribute("error", "A client with this email already exists.");
-            return "register";
+            return "index";
         }
 
 
