@@ -52,4 +52,13 @@ CREATE TABLE IF NOT EXISTS t_schedule (
                                            FOREIGN KEY (consultation_id) REFERENCES t_consultation(id) ON DELETE CASCADE
 );
 
+CREATE TABLE IF NOT EXISTS t_lawyer_salary (
+                                          id INT PRIMARY KEY AUTO_INCREMENT,
+                                          date DATE NOT NULL,
+                                          lawyer_id INT NOT NULL,
+                                          salary INT NOT NULL,
+                                          FOREIGN KEY (lawyer_id) REFERENCES t_lawyer(id)
+);
+
+
 
