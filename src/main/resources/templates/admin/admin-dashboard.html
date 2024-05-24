@@ -9,12 +9,12 @@
         <div class="container container-lg">
             <h1 class="mt-5">Admin Dashboard</h1>
             <nav class="mb-4">
-                <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">Add new Lawyer</a>
+                <a href="#" class="btn btn-success" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">Add new Lawyer</a>
 
                 <!-- Загальні запити -->
-                <a href="/admin/lawyers" class="btn btn-primary my-2">Lawyers</a>
-                <a href="/admin/clients" class="btn btn-primary my-2">Clients</a>
-                <a href="/admin/consultations" class="btn btn-primary my-2">Consultations</a>
+                <a href="/admin/lawyers" class="btn btn-secondary my-2">Lawyers</a>
+                <a href="/admin/clients" class="btn btn-secondary my-2">Clients</a>
+                <a href="/admin/consultations" class="btn btn-secondary my-2">Consultations</a>
 
                 <!-- Запит 1 -->
                 <a href="/admin/clients-consul-date" class="btn btn-primary my-2">Consultation by date</a>
@@ -44,6 +44,10 @@
 
                 <!-- Запит 9 -->
                 <a href="/admin/clients-and-lawyers-with-role" class="btn btn-primary my-2">All users</a>
+
+                <form action="/" method="get" style="display: inline;">
+                    <button type="submit" class="btn btn-danger">Logout</button>
+                </form>
             </nav>
 
             <div class="alert alert-info" th:text="${message}"></div>
