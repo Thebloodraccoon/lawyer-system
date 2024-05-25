@@ -159,6 +159,7 @@ public class AdminController {
                 "clients in the database: ";
 
         model.addAttribute("message", message + clientCount);
+        model.addAttribute("type", "clientCount");
 
         return "admin/admin-dashboard";
     }

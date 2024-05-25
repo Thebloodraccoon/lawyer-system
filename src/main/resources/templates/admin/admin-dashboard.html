@@ -12,38 +12,38 @@
                 <a href="#" class="btn btn-success" data-toggle="modal" data-target="#registerModal" data-dismiss="modal">Add new Lawyer</a>
 
                 <!-- Загальні запити -->
-                <a href="/admin/lawyers" class="btn btn-secondary my-2">Lawyers</a>
-                <a href="/admin/clients" class="btn btn-secondary my-2">Clients</a>
-                <a href="/admin/consultations" class="btn btn-secondary my-2">Consultations</a>
+                <a href="/admin/lawyers" class="btn btn-secondary my-2"  th:classappend="${type == 'lawyers'} ? ' active' : ''">Lawyers</a>
+                <a href="/admin/clients" class="btn btn-secondary my-2" th:classappend="${type == 'clients'} ? ' active' : ''">Clients</a>
+                <a href="/admin/consultations" class="btn btn-secondary my-2" th:classappend="${type == 'consultations'} ? ' active' : ''">Consultations</a>
 
                 <!-- Запит 1 -->
-                <a href="/admin/clients-consul-date" class="btn btn-primary my-2">Consultation by date</a>
+                <a href="/admin/clients-consul-date" class="btn btn-primary my-2" th:classappend="${type == 'consultationsByDate'} ? ' active' : ''">Consultation by date</a>
 
                 <!-- Запит 2 -->
-                <a href="/admin/consultations/type-like" class="btn btn-primary my-2">Consultations by type</a>
+                <a href="/admin/consultations/type-like" class="btn btn-primary my-2" th:classappend="${type == 'consultationsByType'} ? ' active' : ''">Consultations by type</a>
 
                 <!-- Запит 3 -->
-                <a href="/admin/lawyer-schedule-may" class="btn btn-primary my-2">Lawyer schedule by may</a>
+                <a href="/admin/lawyer-schedule-may" class="btn btn-primary my-2" th:classappend="${type == 'lawyerScheduleForMay'} ? ' active' : ''">Lawyer schedule by may</a>
 
                 <!-- Запит 4 -->
-                <a href="/admin/client-count" class="btn btn-primary my-2">Client Count</a>
+                <a href="/admin/client-count" class="btn btn-primary my-2" th:classappend="${type == 'clientCount'} ? ' active' : ''">Client Count</a>
 
                 <!-- Запит 5 -->
-                <a href="/admin/consultation-count-by-lawyer" class="btn btn-primary my-2">Consultations count for each client</a>
+                <a href="/admin/consultation-count-by-lawyer" class="btn btn-primary my-2" th:classappend="${type == 'consulForClient'} ? ' active' : ''">Consultations count for each client</a>
 
                 <!-- Запит 6 -->
-                <a href="/admin/lawyer-most-consultations" class="btn btn-primary my-2">Lawyer with the most consultation</a>
+                <a href="/admin/lawyer-most-consultations" class="btn btn-primary my-2" th:classappend="${type == 'mostLawyer'} ? ' active' : ''">Lawyer with the most consultation</a>
 
                 <!-- Запит 7 -->
-                <a href="/admin/consultation-count-for-each-lawyer" class="btn btn-primary my-2">Consultations count for each lawyer</a>
+                <a href="/admin/consultation-count-for-each-lawyer" class="btn btn-primary my-2" th:classappend="${type == 'consulForLaw'} ? ' active' : ''">Consultations count for each lawyer</a>
 
                 <!-- Запити 8 -->
-                <a href="/admin/clients-without-consultations-left-join" class="btn btn-primary my-2">Clients without consultations by left join</a>
-                <a href="/admin/clients-without-consultations-not-in" class="btn btn-primary my-2">Clients without consultations by not in</a>
-                <a href="/admin/clients-without-consultations-exists" class="btn btn-primary my-2">Clients without consultations by exists</a>
+                <a href="/admin/clients-without-consultations-left-join" class="btn btn-primary my-2" th:classappend="${type == 'leftJoin'} ? ' active' : ''">Clients without consultations by left join</a>
+                <a href="/admin/clients-without-consultations-not-in" class="btn btn-primary my-2" th:classappend="${type == 'notIn'} ? ' active' : ''">Clients without consultations by in</a>
+                <a href="/admin/clients-without-consultations-exists" class="btn btn-primary my-2" th:classappend="${type == 'exists'} ? ' active' : ''">Clients without consultations by exists</a>
 
                 <!-- Запит 9 -->
-                <a href="/admin/clients-and-lawyers-with-role" class="btn btn-primary my-2">All users</a>
+                <a href="/admin/clients-and-lawyers-with-role" class="btn btn-primary my-2" th:classappend="${type == 'users'} ? ' active' : ''">All users</a>
 
                 <form action="/" method="get" style="display: inline;">
                     <button type="submit" class="btn btn-danger">Logout</button>
