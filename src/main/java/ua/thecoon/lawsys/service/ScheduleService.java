@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ua.thecoon.lawsys.model.entity.Schedule;
 import ua.thecoon.lawsys.repo.ScheduleJpaRepo;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

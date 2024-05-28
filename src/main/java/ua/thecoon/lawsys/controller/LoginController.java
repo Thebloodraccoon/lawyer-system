@@ -5,14 +5,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.thecoon.lawsys.model.entity.Client;
 import ua.thecoon.lawsys.model.entity.Lawyer;
 import ua.thecoon.lawsys.service.ClientService;
 import ua.thecoon.lawsys.service.LawyerService;
 
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor

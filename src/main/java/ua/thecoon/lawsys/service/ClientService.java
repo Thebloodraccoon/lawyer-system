@@ -9,7 +9,7 @@ import ua.thecoon.lawsys.repo.ClientJpaRepo;
 import ua.thecoon.lawsys.repo.ConsultationJpaRepo;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 @RequiredArgsConstructor

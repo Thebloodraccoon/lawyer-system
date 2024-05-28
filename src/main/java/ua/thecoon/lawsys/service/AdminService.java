@@ -12,9 +12,7 @@ import ua.thecoon.lawsys.repo.ConsultationJpaRepo;
 import ua.thecoon.lawsys.repo.CustomRepo;
 import ua.thecoon.lawsys.repo.LawyerJpaRepo;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -88,21 +86,20 @@ public class AdminService {
         return (long) customRepo.executeQuery(jpql).get(0);
     }
 
-    // Запит 5 Агрегатна функція з угрупованням (кількість консультацій у юриста)
+    // Запит 5 Агрегатна функція з угрупованням (кількість консультацій у клієнта)
     @Transactional(readOnly = true)
     public List<Object[]> getCountOfConsulForEachClient() {
         String sql = "SELECT " +
-                "    c.client_id, " +
-                "    cl.name AS client_name, " +
-                "    COUNT(*) AS consultation_count " +
+                "cl.id AS client_id, " +
+                "cl.name AS client_name, " +
+                "COUNT(c.client_id) AS consultation_count " +
                 "FROM " +
-                "    t_consultation c " +
-                "JOIN " +
-                "    t_client cl ON c.client_id = cl.id " +
+                "t_client cl " +
+                "LEFT JOIN t_consultation c ON cl.id = c.client_id " +
                 "GROUP BY " +
-                "    c.client_id, cl.name " +
+                "cl.id, cl.name " +
                 "ORDER BY " +
-                "    COUNT(*) DESC";
+                "consultation_count DESC";
 
         return customRepo.executeNativeQuery(sql);
     }
