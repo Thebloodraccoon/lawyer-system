@@ -22,6 +22,7 @@
         <lombok.version>1.18.30</lombok.version>
         <jakarta-servlet.version>6.1.0-M1</jakarta-servlet.version>
         <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <junit.version>5.10.1</junit.version>
     </properties>
 
     <dependencies>
@@ -73,6 +74,12 @@
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
 
 
