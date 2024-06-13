@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.thecoon.lawsys.model.entity.Client;
+import ua.thecoon.lawsys.model.dto.ClientDTO;
 import ua.thecoon.lawsys.service.ClientService;
 
 
@@ -17,7 +17,7 @@ public class ClientController {
     @GetMapping("client/{id}")
     public String getClient(@PathVariable int id,
                             Model model) {
-        Client client = clientService.getClient((long) id);
+        ClientDTO client = clientService.getClient((long) id);
 
         model.addAttribute("client", client);
         model.addAttribute("clientId", client.getId());
@@ -26,7 +26,8 @@ public class ClientController {
 
     @PostMapping("client/{id}/update")
     public String updateClientProfile(@PathVariable Long id,
-                                      @ModelAttribute Client updatedClient) {
+                                      @ModelAttribute ClientDTO updatedClient) {
+
         clientService.updateClient(id, updatedClient);
 
         return "redirect:/client/" + id;

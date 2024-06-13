@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ua.thecoon.lawsys.model.entity.*;
-import ua.thecoon.lawsys.service.ClientService;
-import ua.thecoon.lawsys.service.ConsultationService;
-import ua.thecoon.lawsys.service.LawyerService;
-import ua.thecoon.lawsys.service.ScheduleService;
+import ua.thecoon.lawsys.model.dto.*;
+import ua.thecoon.lawsys.model.entity.ConsultationStatus;
+import ua.thecoon.lawsys.model.entity.ConsultationType;
+import ua.thecoon.lawsys.service.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -36,7 +35,9 @@ public class ConsultationController {
                                             @RequestParam("type") String type,
                                             Model model) {
         ConsultationType consultationType = ConsultationType.valueOf(type);
-        List<Lawyer> lawyers = lawyerService.getLawyerByType(consultationType);
+
+        List<LawyerDTO> lawyers = lawyerService.getLawyerByType(consultationType);
+
         double consultationCost = consultationService.getConsultationCost(consultationType);
 
         model.addAttribute("clientId", id);
@@ -55,7 +56,7 @@ public class ConsultationController {
                                               @RequestParam("cost") double cost,
                                               @RequestParam("lawyer") Long lawyerId,
                                               Model model) {
-        Lawyer lawyer = lawyerService.getLawyer(lawyerId);
+        LawyerDTO lawyer = lawyerService.getLawyer(lawyerId);
 
         model.addAttribute("clientId", id);
         model.addAttribute("name", name);
@@ -73,29 +74,26 @@ public class ConsultationController {
                                              @RequestParam("cost") double cost,
                                              @RequestParam("lawyer") Long lawyerId,
                                              @RequestParam("date") String date) {
-        Lawyer lawyer = lawyerService.getLawyer(lawyerId);
+        LawyerItemDTO lawyer = lawyerService.getItemLawyer(lawyerId);
+        ClientItemDTO client = clientService.getItemClient(id);
 
-        Consultation consultation = new Consultation();
+
+        ConsultationDTO consultation = new ConsultationDTO();
         consultation.setName(name);
         consultation.setConsulType(ConsultationType.valueOf(type));
         consultation.setCost(cost);
         consultation.setLawyer(lawyer);
-        consultation.setClient(clientService.getClient(id));
+        consultation.setClient(client);
         consultation.setConsultationStatus(ConsultationStatus.Planned);
         consultation.setDate(LocalDateTime.parse(date));
         consultation.setPayments(null);
 
 
-        consultationService.createConsultation(consultation);
+        ConsultationDTO consultationDTO = consultationService.createConsultation(consultation);
 
-        Schedule schedule = new Schedule();
-        schedule.setDate(LocalDateTime.parse(date));
-        schedule.setLawyer(lawyer);
-        schedule.setConsultation(consultation);
+        scheduleService.createSchedule(LocalDateTime.parse(date), lawyer, consultationDTO);
 
-        scheduleService.createSchedule(schedule);
 
         return "redirect:/client/" + id;
     }
-
 }
