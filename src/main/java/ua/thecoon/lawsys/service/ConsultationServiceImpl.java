@@ -27,4 +27,10 @@ public class ConsultationServiceImpl implements ConsultationService {
     public double getConsultationCost(ConsultationType type) {
         return type.getCost();
     }
+
+    @Transactional
+    public boolean deleteConsultation(Long id) {
+        consultationJpaRepo.deleteById(id);
+        return true;
+    }
 }

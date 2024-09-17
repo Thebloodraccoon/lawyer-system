@@ -7,4 +7,5 @@ import ua.thecoon.lawsys.model.entity.ConsultationType;
 public interface ConsultationService {
     ConsultationDTO createConsultation(ConsultationDTO consultationDTO);
     double getConsultationCost(ConsultationType type);
+    boolean deleteConsultation(Long id);
 }

@@ -44,8 +44,6 @@ public class ScheduleService {
         schedule.setConsultation(consultation);
 
         scheduleJpaRepo.save(schedule);
-
-        scheduleJpaRepo.save(schedule);
     }
 
 }

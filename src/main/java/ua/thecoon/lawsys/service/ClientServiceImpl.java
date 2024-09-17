@@ -16,9 +16,9 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClientServiceImpl implements ClientService{
+public class ClientServiceImpl implements ClientService {
     private final ClientJpaRepo clientJpaRepo;
-    private final ConsultationJpaRepo consultationJpaRepo;
+    private final ConsultationService consultationService;
     private final ClientMapper clientMapper;
 
     @Transactional(readOnly = true)
@@ -32,16 +32,14 @@ public class ClientServiceImpl implements ClientService{
 
     @Transactional(readOnly = true)
     public ClientDTO getClient(Long id) {
-        Client client = clientJpaRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
+        Client client = getClientById(id);
 
         return clientMapper.toDto(client);
     }
 
     @Transactional(readOnly = true)
     public ClientItemDTO getItemClient(Long id) {
-        Client client = clientJpaRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
+        Client client = getClientById(id);
 
         return clientMapper.toItemDto(client);
     }
@@ -55,18 +53,9 @@ public class ClientServiceImpl implements ClientService{
 
     @Transactional
     public ClientDTO updateClient(Long id, ClientDTO updatedClient) {
-        Client existingClient = clientJpaRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
+        Client existingClient = getClientById(id);
 
-        if (updatedClient.getName() != null) {
-            existingClient.setName(updatedClient.getName());
-        }
-        if (updatedClient.getEmail() != null) {
-            existingClient.setEmail(updatedClient.getEmail());
-        }
-        if (updatedClient.getPhoneNum() != null) {
-            existingClient.setPhoneNum(updatedClient.getPhoneNum());
-        }
+        updateClientFields(existingClient, updatedClient);
 
         Client save = clientJpaRepo.save(existingClient);
 
@@ -82,13 +71,28 @@ public class ClientServiceImpl implements ClientService{
 
     @Transactional
     public boolean deleteClientConsultation(Long id) {
-        consultationJpaRepo.deleteById(id);
-
-        return true;
+        return consultationService.deleteConsultation(id);
     }
 
     @Transactional(readOnly = true)
     public Client findClientByEmail(String email) {
         return clientJpaRepo.findClientByEmail(email);
+    }
+
+    private Client getClientById(Long id) {
+        return clientJpaRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Client not found with id " + id));
+    }
+
+    private void updateClientFields(Client existingClient, ClientDTO updatedClient) {
+        if (updatedClient.getName() != null) {
+            existingClient.setName(updatedClient.getName());
+        }
+        if (updatedClient.getEmail() != null) {
+            existingClient.setEmail(updatedClient.getEmail());
+        }
+        if (updatedClient.getPhoneNum() != null) {
+            existingClient.setPhoneNum(updatedClient.getPhoneNum());
+        }
     }
 }
